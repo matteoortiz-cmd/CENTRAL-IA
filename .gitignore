@@ -1,0 +1,25 @@
+# Dependências e caches locais
+node_modules/
+.npm/
+.cache/
+*.log
+
+# Credenciais locais e chaves de assinatura
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
+*.p12
+*.pfx
+*.pem
+
+# Arquivos de sistema e caches do Android
+.DS_Store
+Thumbs.db
+.gradle/
+local.properties
+android-preview/build/
+android-preview/original/
+
+# Os arquivos editáveis do site em dist/ e os APKs são parte do projeto.

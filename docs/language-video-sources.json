@@ -1,0 +1,694 @@
+{
+  "Python": [
+    {
+      "title": "Curso Básico de Python - Aula 1 - Introdução ao Python",
+      "url": "https://www.youtube.com/watch?v=g_R_Asf6Co0",
+      "channel": "Hashtag Programação",
+      "sourceUrl": "https://www.youtube.com/watch?v=g_R_Asf6Co0"
+    },
+    {
+      "title": "Curso Python #04 - Primeiros comandos em Python3",
+      "url": "https://www.youtube.com/watch?v=31llNGKWDdo",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=31llNGKWDdo"
+    },
+    {
+      "title": "Curso Python #07 - Operadores Aritméticos",
+      "url": "https://www.youtube.com/watch?v=Vw6gLypRKmY",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=Vw6gLypRKmY"
+    },
+    {
+      "title": "Curso Python #10 - Condições (Parte 1)",
+      "url": "https://www.youtube.com/watch?v=K10u3XIf1-Q",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=K10u3XIf1-Q"
+    },
+    {
+      "title": "Exercício Python #003 - Somando dois números",
+      "url": "https://www.youtube.com/watch?v=PB254Cfjlyk",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=PB254Cfjlyk"
+    }
+  ],
+  "JavaScript": [
+    {
+      "title": "Criando o seu primeiro script - Curso JavaScript #04",
+      "url": "https://www.youtube.com/watch?v=OmmJBfcMJA8",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=OmmJBfcMJA8"
+    },
+    {
+      "title": "Variáveis e Tipos Primitivos - Curso JavaScript #05",
+      "url": "https://www.youtube.com/watch?v=Vbabsye7mWo",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=Vbabsye7mWo"
+    },
+    {
+      "title": "Introdução ao DOM - Curso JavaScript #09",
+      "url": "https://www.youtube.com/watch?v=WWZX8RWLxIk",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=WWZX8RWLxIk"
+    },
+    {
+      "title": "Eventos DOM - Curso JavaScript #10",
+      "url": "https://www.youtube.com/watch?v=wWnBB-mZIvY",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=wWnBB-mZIvY"
+    },
+    {
+      "title": "Exercícios JavaScript (Parte 2) - Curso JavaScript",
+      "url": "https://www.youtube.com/watch?v=UXSWgnbSHxs",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=UXSWgnbSHxs"
+    }
+  ],
+  "TypeScript": [
+    {
+      "title": "Introdução ao TypeScript para iniciantes",
+      "url": "https://www.youtube.com/watch?v=HMjXHypKF0o",
+      "channel": "Manual do Dev",
+      "sourceUrl": "https://www.youtube.com/watch?v=HMjXHypKF0o"
+    },
+    {
+      "title": "CURSO DE TYPESCRIPT NA PRÁTICA - APRENDA TYPESCRIPT EM 1 HORA",
+      "url": "https://www.youtube.com/watch?v=lCemyQeSCV8",
+      "channel": "Matheus Battisti - Hora de Codar",
+      "sourceUrl": "https://www.youtube.com/watch?v=lCemyQeSCV8"
+    },
+    {
+      "title": "TypeScript, o início, de forma prática | MasterClass #07",
+      "url": "https://www.youtube.com/watch?v=0mYq5LrQN1s",
+      "channel": "Rocketseat",
+      "sourceUrl": "https://www.youtube.com/watch?v=0mYq5LrQN1s"
+    },
+    {
+      "title": "TypeScript Completo: Interfaces, Types e Generics Explicados de Forma Simples (Aula 100% Prática)",
+      "url": "https://www.youtube.com/watch?v=XwtKuAV_fHY",
+      "channel": "Desvendando o Código",
+      "sourceUrl": "https://www.youtube.com/watch?v=XwtKuAV_fHY"
+    },
+    {
+      "title": "Mini Projeto TypeScript na Prática | POO no Front-End do Zero",
+      "url": "https://www.youtube.com/watch?v=aXGWUQgObDo",
+      "channel": "Desvendando o Código",
+      "sourceUrl": "https://desvendandoocodigo.com.br/?p=2132"
+    }
+  ],
+  "Java": [
+    {
+      "title": "Curso de Java #02 - Como Funciona o Java - Gustavo Guanabara",
+      "url": "https://www.youtube.com/watch?v=v_ZCtgwbS3o",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=v_ZCtgwbS3o"
+    },
+    {
+      "title": "Curso de Java #03 - Instalando o JDK no seu Computador - Gustavo Guanabara",
+      "url": "https://www.youtube.com/watch?v=yWU5bm_pZzY",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=yWU5bm_pZzY"
+    },
+    {
+      "title": "Curso de Java #06 - Tipos Primitivos e Manipulação de Dados",
+      "url": "https://www.youtube.com/watch?v=JEAQeT7YGs4",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=JEAQeT7YGs4"
+    },
+    {
+      "title": "Curso de Java #07 - Operadores Aritméticos e Classe Math",
+      "url": "https://www.youtube.com/watch?v=W9V5wtOOZHs",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=W9V5wtOOZHs"
+    },
+    {
+      "title": "Exercícios de Java #06 - Curso de Java",
+      "url": "https://www.youtube.com/watch?v=7XPR-v1Fzjw",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=7XPR-v1Fzjw"
+    }
+  ],
+  "C": [
+    {
+      "title": "AULA 01: Introdução, história e características da linguagem C",
+      "url": "https://www.youtube.com/watch?v=sokAuwGTpnM",
+      "channel": "Responde em Códigos",
+      "sourceUrl": "https://www.youtube.com/watch?v=sokAuwGTpnM"
+    },
+    {
+      "title": "Linguagem C | Aula 02 - Declaração de Variáveis",
+      "url": "https://www.youtube.com/watch?v=q51cHsgRHU4",
+      "channel": "Programação Descomplicada | Linguagem C",
+      "sourceUrl": "https://www.youtube.com/watch?v=q51cHsgRHU4"
+    },
+    {
+      "title": "Linguagem C | Aula 04 - Comando scanf",
+      "url": "https://www.youtube.com/watch?v=yQx8sD6vK6M",
+      "channel": "Programação Descomplicada | Linguagem C",
+      "sourceUrl": "https://www.youtube.com/watch?v=yQx8sD6vK6M"
+    },
+    {
+      "title": "Linguagem C |Aula 13 - Comando if",
+      "url": "https://www.youtube.com/watch?v=84mgFRR_ODo",
+      "channel": "Programação Descomplicada | Linguagem C",
+      "sourceUrl": "https://www.youtube.com/watch?v=84mgFRR_ODo"
+    },
+    {
+      "title": "Curso de programação em C: #05 | Exercício I: Calculadora",
+      "url": "https://www.youtube.com/watch?v=-YJXWgCIsnM",
+      "channel": "Pixel Tutoriais por: Allan Portes",
+      "sourceUrl": "https://www.youtube.com/watch?v=-YJXWgCIsnM"
+    }
+  ],
+  "C++": [
+    {
+      "title": "Curso de C++ #01 - Introdução ao Curso",
+      "url": "https://www.youtube.com/watch?v=nUQKr-ey86Y",
+      "channel": "CFBCursos",
+      "sourceUrl": "https://www.youtube.com/watch?v=nUQKr-ey86Y"
+    },
+    {
+      "title": "Curso C++ - Aula 05 - Primeiro Programa",
+      "url": "https://www.youtube.com/watch?v=PoNIFpc7eAE",
+      "channel": "eXcript",
+      "sourceUrl": "https://www.youtube.com/watch?v=PoNIFpc7eAE"
+    },
+    {
+      "title": "Curso C++ - Aula 08 - Variável - eXcript",
+      "url": "https://www.youtube.com/watch?v=wPlltR2dtSQ",
+      "channel": "eXcript",
+      "sourceUrl": "https://www.youtube.com/watch?v=wPlltR2dtSQ"
+    },
+    {
+      "title": "Curso C++ - Aula 17 - Operadores Aritméticos - eXcript",
+      "url": "https://www.youtube.com/watch?v=4em2eb8z_mc",
+      "channel": "eXcript",
+      "sourceUrl": "https://www.youtube.com/watch?v=4em2eb8z_mc"
+    },
+    {
+      "title": "Curso C++ - Aula 18 - Simples Calculadora",
+      "url": "https://www.youtube.com/watch?v=X48dXn1AKDo",
+      "channel": "eXcript",
+      "sourceUrl": "https://www.youtube.com/watch?v=X48dXn1AKDo"
+    }
+  ],
+  "C#": [
+    {
+      "title": "Curso Programação Completo C# - Aula 01",
+      "url": "https://www.youtube.com/watch?v=dVzJ3bx68FA",
+      "channel": "CFBCursos",
+      "sourceUrl": "https://www.youtube.com/watch?v=dVzJ3bx68FA"
+    },
+    {
+      "title": "Primeiro programa no padrão c# .net - Curso Programação Completo C# - Aula 02",
+      "url": "https://www.youtube.com/watch?v=2cGjyyw5ifQ",
+      "channel": "CFBCursos",
+      "sourceUrl": "https://www.youtube.com/watch?v=2cGjyyw5ifQ"
+    },
+    {
+      "title": "Variáveis - Curso Programação Completo C# - Aula 03",
+      "url": "https://www.youtube.com/watch?v=25gWhVRRYDI",
+      "channel": "CFBCursos",
+      "sourceUrl": "https://www.youtube.com/watch?v=25gWhVRRYDI"
+    },
+    {
+      "title": "Condicional IF-ELSE - Curso Programação Completo C# - Aula 13",
+      "url": "https://www.youtube.com/watch?v=Ojm98Gg1rVw",
+      "channel": "CFBCursos",
+      "sourceUrl": "https://www.youtube.com/watch?v=Ojm98Gg1rVw"
+    },
+    {
+      "title": "CRIANDO CALCULADORA DO ZERO em C# pelo Visual Studio",
+      "url": "https://www.youtube.com/watch?v=Fc4cG2wa9_M",
+      "channel": "Sharpax",
+      "sourceUrl": "https://www.youtube.com/watch?v=Fc4cG2wa9_M"
+    }
+  ],
+  "PHP": [
+    {
+      "title": "Começa aqui seu curso de PHP Moderno - @cursoemvideo de PHP - Gustavo Guanabara",
+      "url": "https://www.youtube.com/watch?v=TfsO0BGvGn0",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=TfsO0BGvGn0"
+    },
+    {
+      "title": "Primeiro programa em PHP - @CursoemVideo de PHP - Gustavo Guanabara",
+      "url": "https://www.youtube.com/watch?v=yK7bXIqLk9Q",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=yK7bXIqLk9Q"
+    },
+    {
+      "title": "Variáveis e constantes em PHP - @CursoemVideo de PHP - Gustavo Guanabara",
+      "url": "https://www.youtube.com/watch?v=eC42d9Rsz3g",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=eC42d9Rsz3g"
+    },
+    {
+      "title": "Obtendo dados de formulários com PHP (parte 1) - @CursoemVideo de PHP - Gustavo Guanabara",
+      "url": "https://www.youtube.com/watch?v=tZf2mIAXTLw",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=tZf2mIAXTLw"
+    },
+    {
+      "title": "Desafio 001: Antecessor e Sucessor - @cursoemvideo de PHP",
+      "url": "https://www.youtube.com/watch?v=0oztg9RSpOo",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=0oztg9RSpOo"
+    }
+  ],
+  "Go": [
+    {
+      "title": "Go Lang Para Iniciantes: Instalação e Seu Primeiro Programa",
+      "url": "https://www.youtube.com/watch?v=N6WQUiZ15Ow",
+      "channel": "QuaseDev",
+      "sourceUrl": "https://www.youtube.com/watch?v=N6WQUiZ15Ow"
+    },
+    {
+      "title": "Dominando Variáveis no Go: do Básico ao Avançado em 18 minutos",
+      "url": "https://www.youtube.com/watch?v=VuleB9bwiMI",
+      "sourceUrl": "https://www.youtube.com/watch?v=VuleB9bwiMI"
+    },
+    {
+      "title": "Iniciando com Golang na prática - Aula 2",
+      "url": "https://www.youtube.com/watch?v=LIcKvaf08to",
+      "channel": "Full Cycle",
+      "sourceUrl": "https://www.youtube.com/watch?v=LIcKvaf08to"
+    },
+    {
+      "title": "Aula 11 - Funções [CURSO GOLANG DO ZERO]",
+      "url": "https://www.youtube.com/watch?v=eTHGCR2CUeA",
+      "channel": "Stephanie Cardoso",
+      "sourceUrl": "https://devsteph.com/golang-do-zero/"
+    },
+    {
+      "title": "Aula 18 - Exercício 01 CURSO GOLANG DO ZERO",
+      "url": "https://www.youtube.com/watch?v=Xxo6y1rDHtQ",
+      "channel": "Stephanie Cardoso",
+      "sourceUrl": "https://devsteph.com/golang-do-zero/"
+    }
+  ],
+  "Rust": [
+    {
+      "title": "[BR] Rust por onde começar? ⚙️ 🦀 - Curso de Linguagem Rust - Primeira Aula - Introdução",
+      "url": "https://www.youtube.com/watch?v=L4GaODI2Ap0",
+      "channel": "Bruno Cesar Rocha",
+      "sourceUrl": "https://www.youtube.com/watch?v=L4GaODI2Ap0"
+    },
+    {
+      "title": "Programação Básica em Rust (Portugese)",
+      "url": "https://www.youtube.com/watch?v=wadNFaVfNCU",
+      "channel": "Microsoft Reactor",
+      "sourceUrl": "https://www.youtube.com/watch?v=wadNFaVfNCU"
+    },
+    {
+      "title": "Variáveis e constantes | Aprenda Rust | 02",
+      "url": "https://www.youtube.com/watch?v=GYhTFLdHNQI",
+      "channel": "CodeShow",
+      "sourceUrl": "https://www.youtube.com/watch?v=GYhTFLdHNQI"
+    },
+    {
+      "title": "Ownership & Borrowing | Aprenda Rust | 08",
+      "url": "https://www.youtube.com/watch?v=mGY5fYW7Jk4",
+      "channel": "CodeShow",
+      "sourceUrl": "https://www.youtube.com/watch?v=mGY5fYW7Jk4"
+    },
+    {
+      "title": "Aprenda Rust do Zero: Conceitos Essenciais, Exercícios e Melhores Práticas",
+      "url": "https://www.youtube.com/watch?v=JibjgDKPdKY",
+      "channel": "WEB3DEV",
+      "sourceUrl": "https://www.youtube.com/watch?v=JibjgDKPdKY"
+    }
+  ],
+  "Ruby": [
+    {
+      "title": "Introdução - Aprendendo a programar com Ruby: O Básico para iniciantes",
+      "url": "https://www.youtube.com/watch?v=Sjw3S3QzpR4",
+      "channel": "Rafael Biriba",
+      "sourceUrl": "https://rafaelbiriba.com/br/programacao/introducao-aprendendo-a-programar-com-ruby-basico-para-iniciantes/"
+    },
+    {
+      "title": "Ruby Basics 1 - Aula 4A - Aprendendo a programar com Ruby: O Básico para iniciantes",
+      "url": "https://www.youtube.com/watch?v=A0zfpcbSFTc",
+      "channel": "Rafael Biriba",
+      "sourceUrl": "https://rafaelbiriba.com/br/programacao/aula-4A-aprendendo-a-programar-com-ruby-basico/"
+    },
+    {
+      "title": "Ruby Basics 2 - Array - Aula 5A - Aprendendo a programar com Ruby: O Básico para iniciantes",
+      "url": "https://www.youtube.com/watch?v=iWyXh_XCqnQ",
+      "channel": "Rafael Biriba",
+      "sourceUrl": "https://rafaelbiriba.com/br/programacao/aula-5A-aprendendo-a-programar-com-ruby-basico/"
+    },
+    {
+      "title": "Ruby Basics 4 - Conditionals - Aula 7A - Aprendendo a programar com Ruby: O Básico para iniciantes",
+      "url": "https://www.youtube.com/watch?v=ycOHA710R1I",
+      "channel": "Rafael Biriba",
+      "sourceUrl": "https://rafaelbiriba.com/br/programacao/aula-7A-aprendendo-a-programar-com-ruby-basico/"
+    },
+    {
+      "title": "Ruby Basics 1 - Correção dos exercícios - Aula 4B - Aprendendo a programar com Ruby: O Básico para iniciantes",
+      "url": "https://www.youtube.com/watch?v=W1gPL99b4Zs",
+      "channel": "Rafael Biriba",
+      "sourceUrl": "https://rafaelbiriba.com/br/programacao/aula-4B-aprendendo-a-programar-com-ruby-basico/"
+    }
+  ],
+  "Kotlin": [
+    {
+      "title": "Curso de Kotlin do Zero a Orientação a Objetos - Nível Iniciante",
+      "url": "https://www.youtube.com/watch?v=4OYpKXw7rGM",
+      "channel": "Stack Mobile",
+      "sourceUrl": "https://www.youtube.com/watch?v=4OYpKXw7rGM"
+    },
+    {
+      "title": "Curso Kotlin 2023 - #03 Primeiro programa Kotlin",
+      "url": "https://www.youtube.com/watch?v=ZxUm9uH8teI",
+      "sourceUrl": "https://www.youtube.com/watch?v=ZxUm9uH8teI"
+    },
+    {
+      "title": "Curso De Kotlin Para Iniciantes - Textos, Números E Variáveis Imutáveis #05",
+      "url": "https://www.youtube.com/watch?v=oiSN2v-oDTM",
+      "channel": "Tiago Aguiar",
+      "sourceUrl": "https://stack.tiagoaguiar.dev/videos/curso-de-kotlin-completo-programacao/oiSN2v-oDTM"
+    },
+    {
+      "title": "CURSO DE KOTLIN PARA INICIANTES | FUNÇÕES COM RETORNO #20",
+      "url": "https://www.youtube.com/watch?v=bkzTCRQdazY",
+      "channel": "Tiago Aguiar",
+      "sourceUrl": "https://www.youtube.com/watch?v=bkzTCRQdazY"
+    },
+    {
+      "title": "Curso completo sobre Algoritmos e Lógica de Programação - Matemática Básica subtração em Kotlin",
+      "url": "https://www.youtube.com/watch?v=evQcJ91R1o8",
+      "channel": "Professor MarcoMaddo",
+      "sourceUrl": "https://www.youtube.com/watch?v=evQcJ91R1o8"
+    }
+  ],
+  "Swift": [
+    {
+      "title": "XCODE: COMO CRIAR UM APLICATIVO IOS DO ZERO (PARA INICIANTES) | TUTORIAL #1",
+      "url": "https://www.youtube.com/watch?v=t8JI3Ur51zY",
+      "channel": "Tiago Aguiar",
+      "sourceUrl": "https://www.youtube.com/watch?v=t8JI3Ur51zY"
+    },
+    {
+      "title": "CURSO DE SWIFT - TIPOS DE DADOS #2 | [SEU PRIMEIRO APP iOS]",
+      "url": "https://www.youtube.com/watch?v=nfGTJ9HUelw",
+      "channel": "Tiago Aguiar",
+      "sourceUrl": "https://www.youtube.com/watch?v=nfGTJ9HUelw"
+    },
+    {
+      "title": "CURSO DE SWIFT - LÓGICAS #4 | [SEU PRIMEIRO APP iOS]",
+      "url": "https://www.youtube.com/watch?v=105ggtBA0LA",
+      "channel": "Tiago Aguiar",
+      "sourceUrl": "https://www.youtube.com/watch?v=105ggtBA0LA"
+    },
+    {
+      "title": "CURSO DE SWIFT - FOR, RANGE, WHERE E MODULOS #10",
+      "url": "https://www.youtube.com/watch?v=mku4SUf-DkE",
+      "channel": "Tiago Aguiar",
+      "sourceUrl": "https://www.youtube.com/watch?v=mku4SUf-DkE"
+    },
+    {
+      "title": "CURSO DE SWIFT - FUNÇÕES #15",
+      "url": "https://www.youtube.com/watch?v=yAt6HOyvF2Q",
+      "channel": "Tiago Aguiar",
+      "sourceUrl": "https://www.youtube.com/watch?v=yAt6HOyvF2Q"
+    },
+    {
+      "title": "Como Criar Um Aplicativo de Calculadora no iOS do ZERO | Final",
+      "url": "https://www.youtube.com/watch?v=EGBcgmJqYLE",
+      "channel": "Tiago Aguiar",
+      "sourceUrl": "https://www.youtube.com/watch?v=EGBcgmJqYLE"
+    }
+  ],
+  "Dart": [
+    {
+      "title": "Curso de Dart - [00] Introdução",
+      "url": "https://www.youtube.com/watch?v=PgRv_aeqf-4",
+      "channel": "Deivid Willyan | Flutter",
+      "sourceUrl": "https://www.youtube.com/watch?v=PgRv_aeqf-4"
+    },
+    {
+      "title": "Curso de Dart - [01] Variáveis e Tipos",
+      "url": "https://www.youtube.com/watch?v=kRIWUk-thDM",
+      "channel": "Deivid Willyan | Flutter",
+      "sourceUrl": "https://www.youtube.com/watch?v=kRIWUk-thDM"
+    },
+    {
+      "title": "023 - Funções em DART - Curso de FLUTTER e DART 2019",
+      "url": "https://www.youtube.com/watch?v=eRBuc_EQurM",
+      "channel": "daves tecnologia",
+      "sourceUrl": "https://www.youtube.com/watch?v=eRBuc_EQurM"
+    },
+    {
+      "title": "038 Classes em DART - Curso de FLUTTER e DART",
+      "url": "https://www.youtube.com/watch?v=TziI5riFr9s",
+      "channel": "daves tecnologia",
+      "sourceUrl": "https://www.youtube.com/watch?v=TziI5riFr9s"
+    },
+    {
+      "title": "Curso de Dart - [16] Exercícios: IF e ELSE",
+      "url": "https://www.youtube.com/watch?v=Hu6B1VDJV48",
+      "channel": "Deivid Willyan | Flutter",
+      "sourceUrl": "https://www.youtube.com/watch?v=Hu6B1VDJV48"
+    },
+    {
+      "title": "Curso básico de Dart - Aula 24 - Correçao de exercicio de Mapas e Listas",
+      "url": "https://www.youtube.com/watch?v=4CLXFWazem0",
+      "sourceUrl": "https://www.youtube.com/watch?v=4CLXFWazem0"
+    }
+  ],
+  "R": [
+    {
+      "title": "Aula 02 - Passos iniciais para a utilização do R e do RStudio",
+      "url": "https://www.youtube.com/watch?v=KryehEXgGF8",
+      "channel": "Ben Dêivide",
+      "sourceUrl": "https://bendeivide.github.io/courses/ear/rbasico2024/"
+    },
+    {
+      "title": "Aula 08 - Objetos e estrutura de dados",
+      "url": "https://www.youtube.com/watch?v=wl_TsLblYoU",
+      "channel": "Ben Dêivide",
+      "sourceUrl": "https://bendeivide.github.io/courses/ear/rbasico2024/"
+    },
+    {
+      "title": "Aula 09 - Vetores",
+      "url": "https://www.youtube.com/watch?v=d0JKiLRYmoQ",
+      "channel": "Ben Dêivide",
+      "sourceUrl": "https://bendeivide.github.io/courses/ear/rbasico2024/"
+    },
+    {
+      "title": "Aula 16 - Estruturas de controle",
+      "url": "https://www.youtube.com/watch?v=kG2Kh1JP4Jo",
+      "channel": "Ben Dêivide",
+      "sourceUrl": "https://bendeivide.github.io/courses/ear/rbasico2024/"
+    },
+    {
+      "title": "Como Sair do ZERO no R em Apenas Uma Aula!",
+      "url": "https://www.youtube.com/watch?v=W7UtGnbBiro",
+      "channel": "Hashtag Treinamentos",
+      "sourceUrl": "https://www.hashtagtreinamentos.com/como-comecar-no-r"
+    }
+  ],
+  "SQL": [
+    {
+      "title": "Curso SQL Completo 2019 [Iniciantes] + Desafios + Muita Prática",
+      "url": "https://www.youtube.com/watch?v=rX2I7OjLqWE",
+      "channel": "Dev Aprender | Jhonatan de Souza",
+      "sourceUrl": "https://www.youtube.com/watch?v=rX2I7OjLqWE"
+    },
+    {
+      "title": "Curso MySQL #03 - Criando o primeiro Banco de Dados",
+      "url": "https://www.youtube.com/watch?v=m9YPlX0fcJk",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=m9YPlX0fcJk"
+    },
+    {
+      "title": "Curso MySQL #05 - Inserindo Dados na Tabela (INSERT INTO)",
+      "url": "https://www.youtube.com/watch?v=NCG9niOlm40",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=NCG9niOlm40"
+    },
+    {
+      "title": "Curso MySQL #11 - SELECT (Parte 1)",
+      "url": "https://www.youtube.com/watch?v=GaOlyL3Uv9M",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=GaOlyL3Uv9M"
+    },
+    {
+      "title": "Exercícios Práticos de Análises de Dados com SQL",
+      "url": "https://www.youtube.com/watch?v=2ZrDHGDCoCc",
+      "channel": "Hashtag Programação",
+      "sourceUrl": "https://www.hashtagtreinamentos.com/exercicios-de-analise-de-dados-no-sql"
+    }
+  ],
+  "Bash": [
+    {
+      "title": "Shell Scripting – Introdução e Conceitos Básicos – 01 – Linux",
+      "url": "https://www.youtube.com/watch?v=EOLPUc6oo-w",
+      "channel": "Boson Treinamentos",
+      "sourceUrl": "https://www.bosontreinamentos.com.br/linux/shell-scripting-introducao-e-conceitos-basicos-01-linux/"
+    },
+    {
+      "title": "Shell Scripting – Criando scripts simples – comando echo – 06",
+      "url": "https://www.youtube.com/watch?v=6Uq3L9fj36Q",
+      "channel": "Boson Treinamentos",
+      "sourceUrl": "https://www.bosontreinamentos.com.br/linux/shell-scripting-criando-scripts-simples-comando-echo-06/"
+    },
+    {
+      "title": "Shell Scripting - Usando variáveis nos scripts - 07 - Linux",
+      "url": "https://www.youtube.com/watch?v=laFqtoKLhT0",
+      "channel": "Boson Treinamentos",
+      "sourceUrl": "https://www.youtube.com/watch?v=laFqtoKLhT0"
+    },
+    {
+      "title": "Shell Scripting – Estrutura de Repetição for (loop) – 19",
+      "url": "https://www.youtube.com/watch?v=m0XiSjbdqTo",
+      "channel": "Boson Treinamentos",
+      "sourceUrl": "https://www.bosontreinamentos.com.br/shell-script/shell-scripting-estrutura-de-repeticao-for-loop-19/"
+    },
+    {
+      "title": "Shell Scripting - Criando Funções em scripts, parte 01 - 28",
+      "url": "https://www.youtube.com/watch?v=uHgcchg2VIM",
+      "channel": "Boson Treinamentos",
+      "sourceUrl": "https://www.youtube.com/watch?v=uHgcchg2VIM"
+    },
+    {
+      "title": "Como Criar um Alerta em Bash ao Final de um Evento",
+      "url": "https://www.youtube.com/watch?v=wube6BF6xvU",
+      "channel": "Terminal Root",
+      "sourceUrl": "https://terminalroot.com.br/2017/05/como-criar-um-alerta-em-bash-ao-final-de-um-evento.html"
+    }
+  ],
+  "Lua": [
+    {
+      "title": "Curso de Lua - Aula 01 - Introdução e Ambiente",
+      "url": "https://www.youtube.com/watch?v=3BA_fK0yXrI",
+      "channel": "Techiesse",
+      "sourceUrl": "https://www.youtube.com/watch?v=3BA_fK0yXrI"
+    },
+    {
+      "title": "Curso de Lua - Aula 03 - Valores, Variáveis e Tipos",
+      "url": "https://www.youtube.com/watch?v=IWituXu8Dk4",
+      "channel": "Techiesse",
+      "sourceUrl": "https://www.youtube.com/watch?v=IWituXu8Dk4"
+    },
+    {
+      "title": "Curso de Lua - Aula 05 - Programação Estruturada",
+      "url": "https://www.youtube.com/watch?v=FF86FGjvUlA",
+      "channel": "Techiesse",
+      "sourceUrl": "https://www.youtube.com/watch?v=FF86FGjvUlA"
+    },
+    {
+      "title": "Curso de Lua - Aula 06 - Funções (parte 1)",
+      "url": "https://www.youtube.com/watch?v=nKA2nWqdeT0",
+      "channel": "Techiesse",
+      "sourceUrl": "https://www.youtube.com/watch?v=nKA2nWqdeT0"
+    },
+    {
+      "title": "Curso de Lua - Aula 08 - Tabelas (Exemplo - Parte 1)",
+      "url": "https://www.youtube.com/watch?v=JEvyHXPbiF4",
+      "channel": "Techiesse",
+      "sourceUrl": "https://www.youtube.com/watch?v=JEvyHXPbiF4"
+    }
+  ],
+  "HTML": [
+    {
+      "title": "Seu primeiro código HTML - @Curso em Vídeo HTML5 e CSS3",
+      "url": "https://www.youtube.com/watch?v=E6CdIawPTh0",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=E6CdIawPTh0"
+    },
+    {
+      "title": "A tag img em HTML5 - @Curso em Vídeo HTML5 e CSS3",
+      "url": "https://www.youtube.com/watch?v=CwOmEetWMnU",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=CwOmEetWMnU"
+    },
+    {
+      "title": "Listas OL e UL - @Curso em Vídeo HTML5 e CSS3",
+      "url": "https://www.youtube.com/watch?v=JlE0pzESf5g",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=JlE0pzESf5g"
+    },
+    {
+      "title": "Links e Âncoras em HTML5 - @Curso em Vídeo HTML5 e CSS3",
+      "url": "https://www.youtube.com/watch?v=LeOVXQDsAIY",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=LeOVXQDsAIY"
+    },
+    {
+      "title": "Desafio: um site com vídeos - @Curso em Vídeo HTML5 e CSS3",
+      "url": "https://www.youtube.com/watch?v=gqrySQQzvvQ",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=gqrySQQzvvQ"
+    }
+  ],
+  "CSS": [
+    {
+      "title": "Estilos CSS externos - @Curso em Vídeo HTML5 e CSS3",
+      "url": "https://www.youtube.com/watch?v=-i1JVMspDJQ",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=-i1JVMspDJQ"
+    },
+    {
+      "title": "Representando Cores com CSS3 - @Curso em Vídeo HTML5 e CSS3",
+      "url": "https://www.youtube.com/watch?v=uKjKnztS3cY",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=uKjKnztS3cY"
+    },
+    {
+      "title": "As diferenças entre id e class - @Curso em Vídeo HTML5 e CSS3",
+      "url": "https://www.youtube.com/watch?v=zXfTjPrMC_0",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=zXfTjPrMC_0"
+    },
+    {
+      "title": "Modelo de Caixas na prática (parte 1) - @Curso em Vídeo HTML5 e CSS3",
+      "url": "https://www.youtube.com/watch?v=rXF1okX0v9E",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://videohighlight.com/v/rXF1okX0v9E?language=pt"
+    },
+    {
+      "title": "Curso CSS Completo: Aula 27 - Flexbox",
+      "url": "https://www.youtube.com/watch?v=NQTU9hEStD8",
+      "channel": "Programação Web",
+      "sourceUrl": "https://www.youtube.com/watch?v=NQTU9hEStD8"
+    },
+    {
+      "title": "Criando um exemplo real - @Curso em Vídeo HTML5 e CSS3",
+      "url": "https://www.youtube.com/watch?v=reFQrqxOzsg",
+      "channel": "Curso em Vídeo",
+      "sourceUrl": "https://www.youtube.com/watch?v=reFQrqxOzsg"
+    }
+  ],
+  "JSON": [
+    {
+      "title": "O que e JSON? (Exemplos com Python e Javascript)",
+      "url": "https://www.youtube.com/watch?v=XmCrArtfjaQ",
+      "sourceUrl": "https://www.youtube.com/watch?v=XmCrArtfjaQ"
+    },
+    {
+      "title": "Curso Javascript Completo: Aula 19 - JSON",
+      "url": "https://www.youtube.com/watch?v=zjfA_C08XmA",
+      "channel": "Programação Web",
+      "sourceUrl": "https://www.youtube.com/watch?v=zjfA_C08XmA"
+    },
+    {
+      "title": "Aprendendo sobre conversões de JSON e Objetos em Javascript - Aula 65",
+      "url": "https://www.youtube.com/watch?v=-EF_SYy2h7Q",
+      "channel": "CFBCursos",
+      "sourceUrl": "https://www.youtube.com/watch?v=-EF_SYy2h7Q"
+    },
+    {
+      "title": "[BR][Front-end] Entenda JSON e LocalStorage de uma vez por todas",
+      "url": "https://www.youtube.com/watch?v=ieii6fjTXYo",
+      "channel": "ncesar",
+      "sourceUrl": "https://www.youtube.com/watch?v=ieii6fjTXYo"
+    },
+    {
+      "title": "JSON para Iniciantes na Prática | Crie um Cadastro com HTML, CSS, JavaScript e localStorage",
+      "url": "https://www.youtube.com/watch?v=KmVlYr2b7CU",
+      "channel": "Desvendando o Código",
+      "sourceUrl": "https://desvendandoocodigo.com.br/?p=2347"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+version: 3.0.3
+apkFileName: central-ia-preview.apk
+sdkInfo:
+  minSdkVersion: 23
+doNotCompress:
+- arsc
+- png
