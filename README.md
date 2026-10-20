@@ -55,6 +55,8 @@ Apesar do nome, **`dist` contém o código editável do site**. Você pode alter
 | `dist/index.html` | Estrutura e textos da página principal. |
 | `dist/style.css` | Cores, layout e aparência. |
 | `dist/app.js` | Laboratório, projetos locais, prévia e exportação. |
+| `dist/auth-ui.js`, `dist/firebase-auth-client.js` e `dist/firebase-config.js` | Tela de conta, autenticação e configuração pública do Firebase. |
+| `docs/LOGIN-FIREBASE.md` | Ativação dos provedores e dos domínios no console Firebase. |
 | `dist/programming-languages.js` | Informações do catálogo de linguagens. |
 | `dist/language-videos.js` | Vídeos indicados no catálogo. |
 | `dist/language-catalog.js` | Exibição, busca e filtros desse catálogo. |
@@ -73,6 +75,7 @@ O histórico em `ESCOPO.md` também menciona ideias para etapas futuras. Confira
 ## O que já funciona
 
 - Interface em português, com azul, branco, preto e cinza e ícone de estrela correspondente.
+- Tela inicial de conta com acesso opcional por Google ou GitHub via Firebase; depende da ativação dos provedores e domínios no console.
 - Tutoriais e orientações para usar ferramentas de IA com a sua própria conta.
 - Laboratório com HTML, CSS, JavaScript e JSON opcional, prévia isolada e visualização de desktop ou celular.
 - Criação, edição, importação de HTML e salvamento de projetos no navegador.
@@ -86,11 +89,13 @@ Os links dos vídeos têm fontes registradas, mas a reprodução de todos os ví
 
 Os projetos criados no laboratório ficam no **`localStorage` do navegador**, associados ao endereço usado para abrir o site. Eles **não estão incluídos neste ZIP de código-fonte** e não serão enviados ao GitHub junto com estes arquivos.
 
-Para guardar esse trabalho, abra cada projeto no laboratório e use **Exportar projeto → Baixar ZIP**. Trocar de navegador, de perfil ou de endereço pode mostrar uma lista diferente de projetos; limpar os dados do navegador pode apagá-los. Os projetos salvos no site hospedado também não aparecem automaticamente no servidor local.
+Para guardar esse trabalho, abra cada projeto no laboratório e use **Exportar projeto → Baixar ZIP**. Trocar de navegador, de perfil ou de endereço pode mostrar uma lista diferente de projetos; limpar os dados do navegador pode apagá-los. Os projetos salvos no site hospedado também não aparecem automaticamente no servidor local. Entrar ou sair de uma conta não muda essa lista: ela é compartilhada entre todas as contas usadas neste mesmo navegador. O login não protege esses projetos de outras pessoas que usem o mesmo perfil do navegador.
 
 ## O que ainda não está integrado
 
-Login com Google ou GitHub, salvamento direto no Google Drive ou GitHub e banco de dados na nuvem ainda não estão conectados. O envio desses arquivos é manual. Houve apenas uma configuração externa parcial de Firebase; este pacote não contém credenciais de Firebase nem um serviço Firebase integrado.
+O cliente de login Firebase está implementado. A autorização do domínio publicado e a conclusão da configuração do provedor GitHub ainda precisam ser feitas no console; veja [Login com Firebase](docs/LOGIN-FIREBASE.md). Uma entrada real com conta do usuário ainda não foi testada.
+
+Salvamento direto no Google Drive ou GitHub e banco de dados na nuvem ainda não estão conectados. O envio dos projetos continua manual. A configuração Firebase incluída é pública e própria para aplicativos web; não há chave de administrador, Client Secret ou token GitHub neste pacote. O Analytics não é inicializado.
 
 A revisão automática por IA, execução de projetos com servidor ou dependências e publicação automática dos projetos dos usuários também dependem de implementação futura.
 
@@ -117,7 +122,7 @@ git commit -m "Atualiza Central IA"
 git push
 ```
 
-O Git pode pedir seu nome e e-mail no primeiro commit, e o GitHub pode pedir autenticação. Use os fluxos do Git ou do VS Code. Não coloque senhas, tokens, chaves de API ou chaves de assinatura nos arquivos do projeto.
+O Git pode pedir seu nome e e-mail no primeiro commit, e o GitHub pode pedir autenticação. Use os fluxos do Git ou do VS Code. Não coloque senhas, tokens, chaves privadas de API ou chaves de assinatura nos arquivos do projeto. A configuração pública do Firebase para web é intencionalmente incluída no cliente.
 
 ### Sobre publicar com GitHub Pages
 

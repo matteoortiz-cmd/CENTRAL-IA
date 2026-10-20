@@ -1,6 +1,6 @@
 # Central IA — resumo para retomar
 
-Atualizado em 14 de outubro de 2026.
+Atualizado em 20 de outubro de 2026.
 
 ## Endereços
 
@@ -25,11 +25,11 @@ Atualizado em 14 de outubro de 2026.
 
 Meus projetos salva os códigos no navegador do aparelho. Não existe sincronização em nuvem integrada. Limpar os dados do navegador pode apagar esses projetos. O botão Salvar mantém a versão local; Exportar projeto gera um ZIP para guardar uma cópia. O ZIP pode ser enviado manualmente ao Drive ou ao GitHub.
 
-## Login e integrações ainda pendentes
+## Login Firebase e integrações pendentes
 
-O objetivo é ter uma tela inicial de login, mostrar as contas conectadas e permitir salvar no Google Drive ou enviar arquivos corrigidos ao GitHub.
+A tela inicial de conta e o botão Entrar estão implementados, com Google, GitHub, exibição da conta e saída. O acesso sem login continua disponível, inclusive se o Firebase falhar. Os projetos permanecem locais e compartilhados entre as contas usadas no mesmo navegador; entrar ou sair não os apaga. Salvar no Drive ou enviar arquivos corrigidos ao GitHub são etapas futuras.
 
-O usuário criou um projeto Firebase chamado Central IA e relatou ter habilitado o provedor Google. A configuração do provedor GitHub começou, mas ficou pendente na etapa de copiar a URL de retorno do Firebase para Authorization callback URL no formulário OAuth do GitHub. A conclusão não foi confirmada. O login não foi integrado ao site.
+O usuário criou um projeto Firebase chamado Central IA e relatou ter habilitado o provedor Google. A configuração do provedor GitHub começou, mas ficou pendente na etapa de copiar a URL de retorno do Firebase para Authorization callback URL no formulário OAuth do GitHub. A conclusão não foi confirmada. O código cliente do login agora utiliza a configuração web enviada pelo usuário. Em 20 de outubro, a consulta à configuração pública confirmou que o domínio atual do Central IA ainda não estava autorizado. Os módulos do SDK responderam corretamente, mas a autenticação real com a conta do usuário e o uso no Android ainda não foram testados. Veja LOGIN-FIREBASE.md para concluir o console. O Analytics não é inicializado.
 
 A URL de retorno fica em Firebase > Authentication > Método de login > GitHub. Client ID e Client Secret devem ser configurados no Firebase; a chave secreta não deve ser compartilhada em mensagens.
 
@@ -47,7 +47,7 @@ Alterações publicadas no site aparecem ao recarregar a página aberta pelo app
 
 Os arquivos editáveis do site ficam em dist/. A prévia Android está em android-preview/. As fontes da seleção dos vídeos estão em docs/language-video-sources.json. O README.md da pasta principal explica como abrir no VS Code e iniciar o servidor local.
 
-O estado funcional descrito neste resumo corresponde à versão publicada em 14 de outubro de 2026 e exportada em 19 de outubro de 2026.
+Esta revisão acrescenta o cliente de autenticação Firebase em 20 de outubro de 2026. O catálogo e o APK existentes foram preservados.
 
 ## Repositório do projeto
 
