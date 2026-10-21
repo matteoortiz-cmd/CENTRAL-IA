@@ -15,6 +15,8 @@ export function authErrorMessage(error) {
       return 'Este e-mail já usa outro método de login. Entre com o provedor usado anteriormente; as contas não são vinculadas automaticamente.';
     case 'auth/network-request-failed':
       return 'Não foi possível conectar ao login. Confira sua internet e tente novamente.';
+    case 'centralia/login-timeout':
+      return 'O login demorou para carregar. Confira sua conexão e toque em “Tentar conectar novamente”. Você também pode continuar sem entrar.';
     case 'auth/web-storage-unsupported':
       return 'O navegador bloqueou o armazenamento necessário ao login. Permita os dados do site ou use outro navegador.';
     case 'auth/invalid-api-key':
@@ -33,7 +35,8 @@ export function authErrorMessage(error) {
 }
 
 export function mountAuth({ document: doc = document, storage,
-  loadClient = () => import('./firebase-auth-client.js').then(module => module.createAuthClient()) } = {}) {
+  loadClient = () => import('./firebase-auth-client.js').then(module => module.createAuthClient()),
+  loadTimeoutMs = 15000 } = {}) {
   const dialog = doc.querySelector('#account-dialog');
   if (!dialog) return;
   const get = selector => doc.querySelector(selector);
@@ -44,6 +47,7 @@ export function mountAuth({ document: doc = document, storage,
   const retryButton = get('#auth-retry');
   const signOutButton = get('#auth-sign-out');
   let client, user = null, busy = false, ready = false, disposed = false, unsubscribe;
+  let generation = 0, loadTimer;
   let guestChosen = false;
   try {
     if (storage === undefined) storage = globalThis.sessionStorage;
@@ -51,6 +55,18 @@ export function mountAuth({ document: doc = document, storage,
   } catch { storage = null; /* guest still works */ }
 
   function message(value) { status.textContent = value; }
+  function clearLoadTimer() { clearTimeout(loadTimer); loadTimer = undefined; }
+  function failedAttempt(error, attempt) {
+    if (disposed || attempt !== generation) return;
+    generation++;
+    clearLoadTimer();
+    unsubscribe?.();
+    unsubscribe = undefined;
+    ready = false;
+    busy = false;
+    message(authErrorMessage(error));
+    render();
+  }
   function close() { if (dialog.open) dialog.close(); }
   function open() { if (!dialog.open) dialog.showModal(); }
   function chooseGuest() {
@@ -75,16 +91,22 @@ export function mountAuth({ document: doc = document, storage,
   }
   async function connect() {
     if (busy || disposed) return;
+    const attempt = ++generation;
+    clearLoadTimer();
+    unsubscribe?.();
+    unsubscribe = undefined;
+    ready = false;
     busy = true;
     message('Preparando o login… Você já pode continuar sem entrar.');
     render();
+    loadTimer = setTimeout(() => failedAttempt({ code: 'centralia/login-timeout' }, attempt), loadTimeoutMs);
     try {
       const loaded = await loadClient();
-      if (disposed) return;
+      if (disposed || attempt !== generation) return;
       client = loaded;
-      unsubscribe?.();
-      unsubscribe = client.observe(current => {
-        if (disposed) return;
+      const stopObserving = client.observe(current => {
+        if (disposed || attempt !== generation) return;
+        clearLoadTimer();
         user = current;
         ready = true;
         busy = false;
@@ -93,16 +115,12 @@ export function mountAuth({ document: doc = document, storage,
         render();
         if (user) close();
       }, error => {
-        ready = false;
-        busy = false;
-        message(authErrorMessage(error));
-        render();
+        failedAttempt(error, attempt);
       });
+      if (disposed || attempt !== generation) stopObserving?.();
+      else unsubscribe = stopObserving;
     } catch (error) {
-      busy = false;
-      ready = false;
-      message(authErrorMessage(error));
-      render();
+      failedAttempt(error, attempt);
     }
   }
   controls.forEach(button => button.addEventListener('click', async () => {
@@ -123,6 +141,7 @@ export function mountAuth({ document: doc = document, storage,
   signOutButton.addEventListener('click', async () => {
     if (busy || !ready) return;
     busy = true;
+    message('Saindo da conta…');
     render();
     try {
       await client.signOut();
@@ -140,7 +159,7 @@ export function mountAuth({ document: doc = document, storage,
   render();
   if (!guestChosen) open();
   connect();
-  return { destroy() { disposed = true; unsubscribe?.(); } };
+  return { destroy() { disposed = true; generation++; clearLoadTimer(); unsubscribe?.(); } };
 }
 
 if (typeof document !== 'undefined') mountAuth();

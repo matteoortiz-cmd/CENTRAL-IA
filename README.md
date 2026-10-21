@@ -93,7 +93,7 @@ Para guardar esse trabalho, abra cada projeto no laboratório e use **Exportar p
 
 ## O que ainda não está integrado
 
-O cliente de login Firebase está implementado. A autorização do domínio publicado e a conclusão da configuração do provedor GitHub ainda precisam ser feitas no console; veja [Login com Firebase](docs/LOGIN-FIREBASE.md). Uma entrada real com conta do usuário ainda não foi testada.
+O cliente de login Firebase está implementado. Em 21 de outubro, o domínio publicado e os provedores Google/GitHub estavam configurados; o usuário confirmou o login no computador. A inicialização foi ajustada para evitar que os botões travem no celular, com recuperação se o carregamento falhar e sem espera artificial para trocar de conta. A correção ainda precisa ser conferida no aparelho Android. Veja [Login com Firebase](docs/LOGIN-FIREBASE.md).
 
 Salvamento direto no Google Drive ou GitHub e banco de dados na nuvem ainda não estão conectados. O envio dos projetos continua manual. A configuração Firebase incluída é pública e própria para aplicativos web; não há chave de administrador, Client Secret ou token GitHub neste pacote. O Analytics não é inicializado.
 

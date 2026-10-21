@@ -26,7 +26,8 @@ class Element {
   set innerHTML(_) { throw new Error('Account data must never be rendered as HTML.'); }
 }
 
-function fixture({ initialUser = null, guest = false, sessionOnly = false, loadClient, storage } = {}) {
+function fixture({ initialUser = null, guest = false, sessionOnly = false, loadClient, storage,
+  loadTimeoutMs, clientOverride = {} } = {}) {
   const ids = ['account-dialog', 'auth-status', 'account-button', 'auth-guest', 'auth-retry',
     'auth-sign-out', 'auth-signed-out', 'auth-signed-in', 'account-title', 'auth-name',
     'auth-email', 'auth-providers', 'auth-persistence'];
@@ -55,15 +56,46 @@ function fixture({ initialUser = null, guest = false, sessionOnly = false, loadC
     sessionOnly,
     observe(callback, error) { next = callback; fail = error; callback(initialUser); return () => {}; },
     signIn(provider) { signIns.push(provider); return Promise.resolve(); },
-    signOut() { signOuts++; next(null); return Promise.resolve(); }
+    signOut() { signOuts++; next(null); return Promise.resolve(); },
+    ...clientOverride
   };
-  const mounted = mountAuth({ document: doc, storage: session, loadClient: loadClient || (() => Promise.resolve(client)) });
+  const mounted = mountAuth({ document: doc, storage: session, loadTimeoutMs,
+    loadClient: loadClient || (() => Promise.resolve(client)) });
   return { elements, controls, values, client, signIns, get signOuts() { return signOuts; },
     emitUser: user => next(user), emitError: error => fail(error), mounted, doc };
 }
 
 const settle = () => new Promise(resolve => setImmediate(resolve));
+const waitForTimeout = () => new Promise(resolve => setTimeout(resolve, 50));
 const user = { displayName: 'Matteo', email: 'matteo@example.test', providerData: [{ providerId: 'google.com' }] };
+
+function deferred() {
+  let resolve, reject;
+  const promise = new Promise((yes, no) => { resolve = yes; reject = no; });
+  return { promise, resolve, reject };
+}
+
+function observerClient({ initial = true, initialUser = null } = {}) {
+  let next, fail;
+  let observed = 0, unsubscribed = 0;
+  const calls = [];
+  return {
+    calls,
+    get observed() { return observed; },
+    get unsubscribed() { return unsubscribed; },
+    observe(callback, error) {
+      observed++;
+      next = callback;
+      fail = error;
+      if (initial) callback(initialUser);
+      return () => { unsubscribed++; };
+    },
+    emitUser(value) { next(value); },
+    emitError(error) { fail(error); },
+    signIn(provider) { calls.push(provider); return Promise.resolve(); },
+    signOut() { next(null); return Promise.resolve(); }
+  };
+}
 
 test('SDK failure keeps guest access, local projects, and retry available', async () => {
   const f = fixture({ loadClient: () => Promise.reject({ code: 'auth/network-request-failed' }) });
@@ -120,6 +152,29 @@ test('sign-out changes identity and preserves all existing local projects', asyn
   assert.equal(f.elements['auth-signed-in'].hidden, true);
   assert.equal(f.elements['auth-signed-out'].hidden, false);
   assert.equal(f.values.get('centralia-projects'), projects);
+});
+
+test('after sign-out completes Google can be selected immediately without reinitializing or delaying', async () => {
+  let loads = 0;
+  let f;
+  f = fixture({ initialUser: user, loadClient: async () => { loads++; await Promise.resolve(); return f.client; } });
+  await settle();
+  const projects = f.values.get('centralia-projects');
+  await f.elements['account-button'].emit('click');
+  const signOut = deferred();
+  f.client.signOut = () => signOut.promise.then(() => { f.emitUser(null); });
+  const pendingSignOut = f.elements['auth-sign-out'].emit('click');
+  assert.ok(f.controls.every(control => control.disabled));
+  signOut.resolve();
+  await pendingSignOut;
+  assert.equal(f.elements['auth-signed-out'].hidden, false);
+  assert.equal(f.controls[0].disabled, false);
+  const pendingSignIn = f.controls[0].emit('click');
+  assert.deepEqual(f.signIns, ['google']);
+  assert.equal(loads, 1);
+  assert.equal(f.values.get('centralia-projects'), projects);
+  await pendingSignIn;
+  f.mounted.destroy();
 });
 
 test('restored account is displayed as text even with hostile profile strings or missing email', async () => {
@@ -183,4 +238,124 @@ test('session-only persistence is communicated and observer failure permits retr
   f.emitError({ code: 'auth/network-request-failed' });
   assert.equal(f.elements['auth-retry'].hidden, false);
   assert.ok(f.controls.every(control => control.disabled));
+});
+
+test('stalled SDK initialization times out and retry recovers without losing projects or opening a popup', async () => {
+  const stalled = deferred();
+  let attempts = 0;
+  let f;
+  f = fixture({ loadTimeoutMs: 15,
+    loadClient: () => ++attempts === 1 ? stalled.promise : Promise.resolve(f.client) });
+  const projects = f.values.get('centralia-projects');
+  assert.ok(f.controls.every(control => control.disabled));
+  await waitForTimeout();
+  assert.equal(f.elements['auth-retry'].hidden, false);
+  assert.equal(f.elements['account-dialog'].attributes.get('aria-busy'), 'false');
+  assert.match(f.elements['auth-status'].textContent, /demor|tempo|conex|carreg|indispon|respon/i);
+  assert.deepEqual(f.signIns, []);
+  await f.elements['auth-retry'].emit('click');
+  await settle();
+  assert.equal(attempts, 2);
+  assert.ok(f.controls.every(control => !control.disabled));
+  assert.equal(f.values.get('centralia-projects'), projects);
+  assert.deepEqual(f.signIns, []);
+  const click = f.controls[0].emit('click');
+  assert.deepEqual(f.signIns, ['google']);
+  await click;
+  f.mounted.destroy();
+});
+
+test('waiting for first account update is covered by timeout and unsubscribes the stalled observer', async () => {
+  const client = observerClient({ initial: false });
+  const f = fixture({ loadTimeoutMs: 15, loadClient: () => Promise.resolve(client) });
+  await settle();
+  assert.equal(client.observed, 1);
+  assert.ok(f.controls.every(control => control.disabled));
+  await waitForTimeout();
+  assert.equal(f.elements['auth-retry'].hidden, false);
+  assert.equal(client.unsubscribed, 1);
+  assert.deepEqual(client.calls, []);
+  await f.elements['auth-guest'].emit('click');
+  assert.equal(f.elements['account-dialog'].open, false);
+  f.mounted.destroy();
+});
+
+test('late SDK result from a timed-out attempt cannot replace the successful retry', async () => {
+  const oldLoad = deferred();
+  const oldClient = observerClient({ initialUser: { ...user, displayName: 'Conta antiga' } });
+  const currentClient = observerClient({ initialUser: user });
+  let attempts = 0;
+  const f = fixture({ loadTimeoutMs: 15,
+    loadClient: () => ++attempts === 1 ? oldLoad.promise : Promise.resolve(currentClient) });
+  await waitForTimeout();
+  await f.elements['auth-retry'].emit('click');
+  await settle();
+  assert.equal(f.elements['account-button'].textContent, 'Matteo');
+  oldLoad.resolve(oldClient);
+  await settle();
+  assert.equal(oldClient.observed, 0);
+  assert.equal(f.elements['account-button'].textContent, 'Matteo');
+  assert.equal(currentClient.unsubscribed, 0);
+  f.mounted.destroy();
+});
+
+test('late SDK rejection from an expired attempt cannot disable a successful retry', async () => {
+  const oldLoad = deferred();
+  const currentClient = observerClient({ initialUser: user });
+  let attempts = 0;
+  const f = fixture({ loadTimeoutMs: 15,
+    loadClient: () => ++attempts === 1 ? oldLoad.promise : Promise.resolve(currentClient) });
+  await waitForTimeout();
+  await f.elements['auth-retry'].emit('click');
+  await settle();
+  oldLoad.reject({ code: 'auth/network-request-failed' });
+  await settle();
+  assert.equal(f.elements['account-button'].textContent, 'Matteo');
+  assert.equal(f.elements['auth-retry'].hidden, true);
+  assert.ok(f.controls.every(control => !control.disabled));
+  assert.equal(currentClient.unsubscribed, 0);
+  f.mounted.destroy();
+});
+
+test('late callbacks from an expired observer cannot change or disable a recovered account', async () => {
+  const staleClient = observerClient({ initial: false });
+  const currentClient = observerClient({ initialUser: user });
+  let attempts = 0;
+  const f = fixture({ loadTimeoutMs: 15,
+    loadClient: () => Promise.resolve(++attempts === 1 ? staleClient : currentClient) });
+  await waitForTimeout();
+  assert.equal(staleClient.unsubscribed, 1);
+  await f.elements['auth-retry'].emit('click');
+  await settle();
+  staleClient.emitUser({ ...user, displayName: 'Conta antiga' });
+  staleClient.emitError({ code: 'auth/network-request-failed' });
+  assert.equal(f.elements['account-button'].textContent, 'Matteo');
+  assert.equal(f.elements['auth-retry'].hidden, true);
+  assert.ok(f.controls.every(control => !control.disabled));
+  assert.equal(currentClient.unsubscribed, 0);
+  assert.deepEqual(currentClient.calls, []);
+  f.mounted.destroy();
+});
+
+test('successful observer clears timeout so ready buttons stay usable after its deadline', async () => {
+  const f = fixture({ loadTimeoutMs: 15 });
+  await settle();
+  assert.ok(f.controls.every(control => !control.disabled));
+  await waitForTimeout();
+  assert.ok(f.controls.every(control => !control.disabled));
+  assert.equal(f.elements['auth-retry'].hidden, true);
+  assert.deepEqual(f.signIns, []);
+  f.mounted.destroy();
+});
+
+test('destroy cancels loading and prevents late SDK completion from observing an abandoned screen', async () => {
+  const pending = deferred();
+  const client = observerClient();
+  const f = fixture({ loadTimeoutMs: 15, loadClient: () => pending.promise });
+  f.mounted.destroy();
+  pending.resolve(client);
+  await settle();
+  await waitForTimeout();
+  assert.equal(client.observed, 0);
+  assert.deepEqual(client.calls, []);
 });
