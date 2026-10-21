@@ -1,4 +1,13 @@
 const providerNames = { 'google.com': 'Google', 'github.com': 'GitHub' };
+const diagnosticCodes = new Set([
+  'auth/unauthorized-domain', 'auth/operation-not-allowed', 'auth/popup-blocked',
+  'auth/popup-closed-by-user', 'auth/cancelled-popup-request',
+  'auth/account-exists-with-different-credential', 'auth/network-request-failed',
+  'auth/web-storage-unsupported', 'auth/invalid-api-key', 'auth/app-not-authorized',
+  'auth/invalid-oauth-client-id', 'auth/invalid-credential', 'auth/configuration-not-found',
+  'auth/user-disabled', 'auth/too-many-requests', 'centralia/login-timeout',
+  'centralia/sign-in-timeout'
+]);
 
 export function authErrorMessage(error) {
   switch (error?.code) {
@@ -17,6 +26,8 @@ export function authErrorMessage(error) {
       return 'Não foi possível conectar ao login. Confira sua internet e tente novamente.';
     case 'centralia/login-timeout':
       return 'O login demorou para carregar. Confira sua conexão e toque em “Tentar conectar novamente”. Você também pode continuar sem entrar.';
+    case 'centralia/sign-in-timeout':
+      return 'Não recebemos a confirmação do login. Se a janela do provedor ainda estiver aberta, confira se falta concluir alguma etapa. Você também pode tentar entrar novamente pelos botões abaixo.';
     case 'auth/web-storage-unsupported':
       return 'O navegador bloqueou o armazenamento necessário ao login. Permita os dados do site ou use outro navegador.';
     case 'auth/invalid-api-key':
@@ -36,7 +47,7 @@ export function authErrorMessage(error) {
 
 export function mountAuth({ document: doc = document, storage,
   loadClient = () => import('./firebase-auth-client.js').then(module => module.createAuthClient()),
-  loadTimeoutMs = 15000 } = {}) {
+  loadTimeoutMs = 15000, signInTimeoutMs = 60000 } = {}) {
   const dialog = doc.querySelector('#account-dialog');
   if (!dialog) return;
   const get = selector => doc.querySelector(selector);
@@ -48,23 +59,52 @@ export function mountAuth({ document: doc = document, storage,
   const signOutButton = get('#auth-sign-out');
   let client, user = null, busy = false, ready = false, disposed = false, unsubscribe;
   let generation = 0, loadTimer;
+  let signInGeneration = 0, signInTimer, lastFailure = null;
   let guestChosen = false;
   try {
     if (storage === undefined) storage = globalThis.sessionStorage;
     guestChosen = storage?.getItem('centralia-guest-session') === 'yes';
   } catch { storage = null; /* guest still works */ }
 
-  function message(value) { status.textContent = value; }
+  function message(value) {
+    status.textContent = value;
+    status.setAttribute('role', 'status');
+    status.setAttribute('data-error', 'false');
+    const diagnostic = get('#auth-diagnostic');
+    if (diagnostic) diagnostic.hidden = true;
+    lastFailure = null;
+  }
+  function reportError(error, provider = 'Login') {
+    // Nunca copiar o objeto Firebase: ele pode conter credenciais OAuth.
+    const code = diagnosticCodes.has(error?.code) ? error.code : 'auth/unknown';
+    message(authErrorMessage({ code }));
+    lastFailure = { provider, code };
+    status.setAttribute('role', 'alert');
+    status.setAttribute('data-error', 'true');
+    const diagnostic = get('#auth-diagnostic');
+    if (diagnostic) {
+      diagnostic.textContent = 'Diagnóstico: ' + provider + ' · ' + code;
+      diagnostic.hidden = false;
+    }
+    if (dialog.open) {
+      status.setAttribute('tabindex', '-1');
+      status.focus?.({ preventScroll: true });
+      status.scrollIntoView?.({ block: 'nearest' });
+    }
+  }
   function clearLoadTimer() { clearTimeout(loadTimer); loadTimer = undefined; }
+  function clearSignInTimer() { clearTimeout(signInTimer); signInTimer = undefined; }
   function failedAttempt(error, attempt) {
     if (disposed || attempt !== generation) return;
     generation++;
+    signInGeneration++;
     clearLoadTimer();
+    clearSignInTimer();
     unsubscribe?.();
     unsubscribe = undefined;
     ready = false;
     busy = false;
-    message(authErrorMessage(error));
+    reportError(error);
     render();
   }
   function close() { if (dialog.open) dialog.close(); }
@@ -110,7 +150,11 @@ export function mountAuth({ document: doc = document, storage,
         user = current;
         ready = true;
         busy = false;
-        message(user ? 'Conta conectada. Seus projetos continuam salvos neste navegador.' : 'Escolha sua conta para entrar no Central IA.');
+        if (user) {
+          signInGeneration++;
+          clearSignInTimer();
+          message('Conta conectada. Seus projetos continuam salvos neste navegador.');
+        } else if (!lastFailure) message('Escolha sua conta para entrar no Central IA.');
         get('#auth-persistence').hidden = !client.sessionOnly;
         render();
         if (user) close();
@@ -125,17 +169,39 @@ export function mountAuth({ document: doc = document, storage,
   }
   controls.forEach(button => button.addEventListener('click', async () => {
     if (busy || !ready) return;
+    const attempt = ++signInGeneration;
+    const provider = button.dataset.signIn === 'github' ? 'GitHub' : 'Google';
+    clearSignInTimer();
     busy = true;
-    message('Conclua o login na janela do provedor.');
+    message('Conclua o login na janela do ' + provider + '.');
     render();
+    signInTimer = setTimeout(() => {
+      if (disposed || attempt !== signInGeneration) return;
+      signInGeneration++;
+      clearSignInTimer();
+      busy = false;
+      reportError({ code: 'centralia/sign-in-timeout' }, provider);
+      render();
+    }, signInTimeoutMs);
     try {
       // Invocar no clique, antes de qualquer await, para preservar a abertura do pop-up.
-      await client.signIn(button.dataset.signIn);
+      const result = await client.signIn(button.dataset.signIn);
+      // O resultado já é uma confirmação do Firebase; não esperar uma segunda
+      // notificação para mostrar a conta quando o navegador demora a entregá-la.
+      if (!disposed && attempt === signInGeneration && result?.user) {
+        user = result.user;
+        message('Conta conectada. Seus projetos continuam salvos neste navegador.');
+        render();
+        close();
+      }
     } catch (error) {
-      message(authErrorMessage(error));
+      if (!disposed && attempt === signInGeneration) reportError(error, provider);
     } finally {
-      busy = false;
-      render();
+      if (!disposed && attempt === signInGeneration) {
+        clearSignInTimer();
+        busy = false;
+        render();
+      }
     }
   }));
   signOutButton.addEventListener('click', async () => {
@@ -146,7 +212,7 @@ export function mountAuth({ document: doc = document, storage,
     try {
       await client.signOut();
       message('Você saiu da conta. Os projetos deste navegador continuam disponíveis.');
-    } catch (error) { message(authErrorMessage(error)); }
+    } catch (error) { reportError(error, 'Saída da conta'); }
     finally { busy = false; render(); }
   });
   accountButton.addEventListener('click', open);
@@ -159,7 +225,7 @@ export function mountAuth({ document: doc = document, storage,
   render();
   if (!guestChosen) open();
   connect();
-  return { destroy() { disposed = true; generation++; clearLoadTimer(); unsubscribe?.(); } };
+  return { destroy() { disposed = true; generation++; signInGeneration++; clearLoadTimer(); clearSignInTimer(); unsubscribe?.(); } };
 }
 
 if (typeof document !== 'undefined') mountAuth();

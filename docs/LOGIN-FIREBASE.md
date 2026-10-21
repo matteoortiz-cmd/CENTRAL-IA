@@ -4,7 +4,7 @@ O cliente do site usa Firebase Authentication com Google e GitHub. A tela inicia
 
 ## Estado verificado em 21 de outubro de 2026
 
-O domínio atual está autorizado, e os provedores Google e GitHub geram URLs de autorização corretamente. O usuário confirmou que o login funciona no computador. As etapas abaixo ficam como referência de configuração.
+O domínio atual está autorizado, e os provedores Google e GitHub geram URLs de autorização corretamente. O usuário confirmou que o login funciona no computador e que Google passou a funcionar no Android. O GitHub no celular ainda retorna à tela anterior sem concluir a entrada; a causa desse retorno ainda não foi confirmada. As etapas abaixo ficam como referência de configuração.
 
 ## Configuração no console
 
@@ -42,6 +42,14 @@ A inicialização usa `initializeAuth` com persistência local/sessão, sem prep
 O carregamento inicial possui um limite de 15 segundos, incluindo a primeira atualização de conta. Em caso de demora, a interface mostra uma mensagem e permite tentar novamente ou continuar sem login. Respostas de tentativas antigas são ignoradas. Esse limite é uma recuperação de falha; não é uma espera adicionada ao login ou à saída.
 
 Sair da conta não recria o cliente, não apaga os projetos e não acrescenta espera fixa. As opções Google e GitHub são liberadas assim que o Firebase confirma a saída. O objetivo é uma troca imediata, mas o tempo real precisa ser medido no aparelho do usuário. A nova correção ainda requer essa confirmação no Android.
+
+## Retorno do GitHub e diagnóstico
+
+A mensagem de login aparece antes dos botões, com destaque e anúncio acessível quando há falha. O diagnóstico exibe somente o nome do provedor e um código de erro de uma lista permitida; o objeto de erro do Firebase, credenciais OAuth, e-mail e tokens nunca são exibidos ou registrados por esse diagnóstico. O aviso permanece até uma nova ação ou entrada confirmada.
+
+Uma tentativa sem resposta após 60 segundos libera os botões e explica como tentar novamente. Isso não acrescenta espera ao fluxo normal nem inicia outra autorização automaticamente. Resultados e erros de tentativas antigas não sobrescrevem a tentativa atual. Uma entrada confirmada pelo resultado do Firebase é mostrada imediatamente, mesmo que a notificação de conta demore.
+
+Em 21 de outubro, a solicitação pública do GitHub continha o retorno esperado e abria o formulário de login no GitHub. Esse teste não valida a chave secreta nem a troca final do código OAuth. A reprodução completa no aparelho e a leitura do erro real continuam necessárias. Um conflito com conta Google, cancelamento da janela e falha de configuração têm correções diferentes; não foram alterados o cadastro OAuth, a expiração de tokens ou a vinculação de contas sem evidência.
 
 ## O que o login não faz nesta etapa
 

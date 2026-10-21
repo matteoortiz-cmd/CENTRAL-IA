@@ -14,7 +14,24 @@ class Element {
   dataset = {};
   listeners = new Map();
   attributes = new Map();
+  focusCalls = [];
+  scrollCalls = [];
+  classList = {
+    values: new Set(),
+    add(...names) { names.forEach(name => this.values.add(name)); },
+    remove(...names) { names.forEach(name => this.values.delete(name)); },
+    contains(name) { return this.values.has(name); },
+    toggle(name, force) {
+      const next = force === undefined ? !this.values.has(name) : force;
+      if (next) this.values.add(name); else this.values.delete(name);
+      return next;
+    }
+  };
   setAttribute(name, value) { this.attributes.set(name, value); }
+  getAttribute(name) { return this.attributes.get(name) ?? null; }
+  removeAttribute(name) { this.attributes.delete(name); }
+  focus(options) { this.focusCalls.push(options); }
+  scrollIntoView(options) { this.scrollCalls.push(options); }
   addEventListener(name, callback) {
     const callbacks = this.listeners.get(name) || [];
     callbacks.push(callback);
@@ -27,10 +44,10 @@ class Element {
 }
 
 function fixture({ initialUser = null, guest = false, sessionOnly = false, loadClient, storage,
-  loadTimeoutMs, clientOverride = {} } = {}) {
+  loadTimeoutMs, signInTimeoutMs, clientOverride = {} } = {}) {
   const ids = ['account-dialog', 'auth-status', 'account-button', 'auth-guest', 'auth-retry',
     'auth-sign-out', 'auth-signed-out', 'auth-signed-in', 'account-title', 'auth-name',
-    'auth-email', 'auth-providers', 'auth-persistence'];
+    'auth-email', 'auth-providers', 'auth-persistence', 'auth-diagnostic'];
   const elements = Object.fromEntries(ids.map(id => [id, new Element()]));
   const controls = ['google', 'github'].map(provider => {
     const element = new Element();
@@ -59,7 +76,7 @@ function fixture({ initialUser = null, guest = false, sessionOnly = false, loadC
     signOut() { signOuts++; next(null); return Promise.resolve(); },
     ...clientOverride
   };
-  const mounted = mountAuth({ document: doc, storage: session, loadTimeoutMs,
+  const mounted = mountAuth({ document: doc, storage: session, loadTimeoutMs, signInTimeoutMs,
     loadClient: loadClient || (() => Promise.resolve(client)) });
   return { elements, controls, values, client, signIns, get signOuts() { return signOuts; },
     emitUser: user => next(user), emitError: error => fail(error), mounted, doc };
@@ -358,4 +375,162 @@ test('destroy cancels loading and prevents late SDK completion from observing an
   await waitForTimeout();
   assert.equal(client.observed, 0);
   assert.deepEqual(client.calls, []);
+});
+
+test('GitHub popup rejection remains visible, gets attention, and permits another provider', async () => {
+  const f = fixture();
+  await settle();
+  f.client.signIn = () => Promise.reject({ code: 'auth/account-exists-with-different-credential' });
+  await f.controls[1].emit('click');
+  await settle();
+  const status = f.elements['auth-status'];
+  assert.match(status.textContent, /outro|anterior/i);
+  assert.equal(status.hidden, false);
+  assert.equal(status.getAttribute('role'), 'alert');
+  assert.equal(f.elements['account-dialog'].open, true);
+  assert.ok(status.focusCalls.length > 0, 'Error should receive keyboard/screen reader focus.');
+  assert.ok(status.scrollCalls.length > 0, 'Error should scroll into view on the small screen.');
+  assert.ok(f.controls.every(control => !control.disabled));
+  f.mounted.destroy();
+});
+
+test('signed-out account update after popup failure preserves visible error and diagnostic', async () => {
+  const f = fixture();
+  await settle();
+  f.client.signIn = () => Promise.reject({ code: 'auth/account-exists-with-different-credential' });
+  await f.controls[1].emit('click');
+  const status = f.elements['auth-status'].textContent;
+  const diagnostic = f.elements['auth-diagnostic'].textContent;
+  f.emitUser(null);
+  assert.equal(f.elements['auth-status'].textContent, status);
+  assert.equal(f.elements['auth-status'].getAttribute('role'), 'alert');
+  assert.equal(f.elements['auth-diagnostic'].textContent, diagnostic);
+  assert.equal(f.elements['auth-diagnostic'].hidden, false);
+  assert.equal(f.elements['account-dialog'].open, true);
+  assert.ok(f.controls.every(control => !control.disabled));
+  f.mounted.destroy();
+});
+
+test('failure feedback exposes only safe provider/code details and never raw credential data', async () => {
+  const f = fixture();
+  await settle();
+  const privateValues = ['private-user@example.test', 'canary-access-token', 'canary-refresh-token', 'canary-oauth-secret'];
+  const rawMessage = privateValues.join(' ');
+  f.client.signIn = () => Promise.reject({
+    code: 'auth/invalid-credential', message: rawMessage,
+    customData: { email: privateValues[0], _tokenResponse: {
+      oauthAccessToken: privateValues[1], refreshToken: privateValues[2], oauthTokenSecret: privateValues[3]
+    } }
+  });
+  await f.controls[1].emit('click');
+  const displayed = Object.values(f.elements).map(element => element.textContent).join('\n');
+  for (const value of privateValues) assert.equal(displayed.includes(value), false);
+  const feedback = [f.elements['auth-status'].textContent, f.elements['auth-diagnostic'].textContent].join('\n');
+  assert.match(feedback, /GitHub/);
+  assert.match(feedback, /invalid-credential/);
+  f.mounted.destroy();
+});
+
+test('unknown or malformed error codes are normalized without displaying attacker-controlled text', async () => {
+  const f = fixture();
+  await settle();
+  const canary = 'private-user@example.test-canary-secret';
+  for (const code of [`auth/${canary}`, '<img src=x onerror=canary-secret>', { toString() { throw new Error('unsafe coercion'); } }]) {
+    f.client.signIn = () => Promise.reject({ code, message: canary });
+    await f.controls[1].emit('click');
+    const displayed = Object.values(f.elements).map(element => element.textContent).join('\n');
+    assert.equal(displayed.includes(canary), false);
+    assert.equal(displayed.includes('onerror'), false);
+    assert.ok(f.controls.every(control => !control.disabled));
+  }
+  f.mounted.destroy();
+});
+
+test('stalled popup times out, unlocks choices and preserves projects without retrying automatically', async () => {
+  const pending = deferred();
+  let loads = 0;
+  let f;
+  f = fixture({ signInTimeoutMs: 15,
+    loadClient: async () => { loads++; await Promise.resolve(); return f.client; } });
+  await settle();
+  const projects = f.values.get('centralia-projects');
+  f.client.signIn = provider => { f.signIns.push(provider); return pending.promise; };
+  // Deliberately leave the popup promise unresolved, as a blocked return path can.
+  f.controls[1].emit('click');
+  assert.deepEqual(f.signIns, ['github']);
+  assert.ok(f.controls.every(control => control.disabled));
+  await waitForTimeout();
+  assert.ok(f.controls.every(control => !control.disabled));
+  assert.equal(f.elements['account-dialog'].attributes.get('aria-busy'), 'false');
+  assert.match(f.elements['auth-status'].textContent, /demor|tempo|tente|novamente|conclu/i);
+  assert.equal(f.elements['account-dialog'].open, true);
+  assert.deepEqual(f.signIns, ['github']);
+  assert.equal(loads, 1);
+  assert.equal(f.values.get('centralia-projects'), projects);
+  await f.elements['auth-guest'].emit('click');
+  assert.equal(f.elements['account-dialog'].open, false);
+  f.mounted.destroy();
+});
+
+test('late rejection from timed-out popup cannot overwrite successful retry or disable its controls', async () => {
+  const oldPopup = deferred();
+  const f = fixture({ signInTimeoutMs: 15 });
+  await settle();
+  let calls = 0;
+  f.client.signIn = () => ++calls === 1 ? oldPopup.promise : Promise.resolve({ user });
+  f.controls[1].emit('click');
+  await waitForTimeout();
+  assert.ok(f.controls.every(control => !control.disabled));
+  await f.controls[0].emit('click');
+  f.emitUser(user);
+  const status = f.elements['auth-status'].textContent;
+  oldPopup.reject({ code: 'auth/invalid-credential', message: 'canary-old-secret' });
+  await settle();
+  assert.equal(f.elements['account-button'].textContent, 'Matteo');
+  assert.equal(f.elements['account-dialog'].open, false);
+  assert.equal(f.elements['auth-status'].textContent, status);
+  assert.ok(f.controls.every(control => !control.disabled));
+  assert.equal(calls, 2);
+  f.mounted.destroy();
+});
+
+test('completed popup clears its deadline and cannot later replace a successful account with timeout', async () => {
+  const f = fixture({ signInTimeoutMs: 15 });
+  await settle();
+  await f.controls[1].emit('click');
+  f.emitUser({ ...user, providerData: [{ providerId: 'github.com' }] });
+  const status = f.elements['auth-status'].textContent;
+  await waitForTimeout();
+  assert.equal(f.elements['auth-status'].textContent, status);
+  assert.equal(f.elements['account-dialog'].open, false);
+  assert.equal(f.elements['auth-providers'].textContent, 'GitHub');
+  assert.ok(f.controls.every(control => !control.disabled));
+  f.mounted.destroy();
+});
+
+test('successful GitHub credential displays account even before observer updates and clears popup deadline', async () => {
+  const f = fixture({ signInTimeoutMs: 15 });
+  await settle();
+  const projects = f.values.get('centralia-projects');
+  const githubUser = { displayName: 'Matteo GitHub', email: null,
+    providerData: [{ providerId: 'github.com' }] };
+  f.client.signIn = provider => {
+    assert.equal(provider, 'github');
+    return Promise.resolve({ user: githubUser, providerId: 'github.com' });
+  };
+  await f.controls[1].emit('click');
+  // No emitUser call: the observer still has its initial signed-out state.
+  assert.equal(f.elements['account-dialog'].open, false);
+  assert.equal(f.elements['account-button'].textContent, githubUser.displayName);
+  assert.equal(f.elements['auth-name'].textContent, githubUser.displayName);
+  assert.equal(f.elements['auth-providers'].textContent, 'GitHub');
+  assert.equal(f.elements['auth-signed-in'].hidden, false);
+  assert.equal(f.elements['auth-status'].getAttribute('data-error'), 'false');
+  const status = f.elements['auth-status'].textContent;
+  await waitForTimeout();
+  assert.equal(f.elements['auth-status'].textContent, status);
+  assert.equal(f.elements['account-dialog'].open, false);
+  assert.equal(f.values.get('centralia-projects'), projects);
+  assert.ok(f.controls.every(control => !control.disabled));
+  f.mounted.destroy();
 });
